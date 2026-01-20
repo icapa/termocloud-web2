@@ -7,8 +7,15 @@ Aplicación web moderna construida con **Preact**, **Firebase** y **TypeScript**
 - ✅ **Autenticación con Google** (Firebase Auth)
 - ✅ **Gestión de estado** con Preact Signals
 - ✅ **Testing** con Vitest
-- 🔄 **Base de datos Firestore** (próximamente)
-- 🎨 **Componentes modulares** (próximamente)
+- ✅ **Base de Datos** Realtime Database (con listeners en tiempo real)
+- 🎨 **Interfaz HTB** Diseño inspirado en Hack The Box
+
+## 📄 Documentación
+
+Consulta la documentación detallada en la carpeta `docs/`:
+- [Guía de Desarrollo y Testing](file:///home/icayon/Desarrollo/termocloud-web2/docs/DEVELOPMENT_GUIDE.md) 🏃
+- [Módulo de Base de Datos](file:///home/icayon/Desarrollo/termocloud-web2/docs/DATABASE.md) 💾
+- [Módulo de Autenticación](file:///home/icayon/Desarrollo/termocloud-web2/docs/AUTHENTICATION.md) 🔐
 
 ## 📦 Instalación
 
