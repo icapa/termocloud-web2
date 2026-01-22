@@ -3,6 +3,7 @@ import { DeviceStatusCard } from './components/DeviceStatusCard'
 import { DeviceControlCard } from './components/DeviceControlCard'
 import { EventLogCard } from './components/EventLogCard'
 import { DeviceConfigCard } from './components/DeviceConfigCard'
+import { ConsumptionCard } from './components/ConsumptionCard'
 import './app.css'
 
 import { useState, useEffect } from 'preact/hooks';
@@ -10,8 +11,8 @@ import { currentUser, isLoading } from './stores/authStore';
 
 export function App() {
   const sampleDeviceId = '00000000bceb13f1';
-  const [activeTab, setActiveTab] = useState<'control' | 'historial' | 'config'>('control');
-  const [activeDesktopTab, setActiveDesktopTab] = useState<'historial' | 'config'>('historial');
+  const [activeTab, setActiveTab] = useState<'control' | 'historial' | 'config' | 'consumo'>('control');
+  const [activeDesktopTab, setActiveDesktopTab] = useState<'historial' | 'config' | 'consumo'>('historial');
   const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
 
   useEffect(() => {
@@ -108,6 +109,24 @@ export function App() {
             >
               Config
             </button>
+            <button
+              onClick={() => setActiveTab('consumo')}
+              style={{
+                flex: 1,
+                padding: '0.75rem',
+                background: 'transparent',
+                border: 'none',
+                borderBottom: activeTab === 'consumo' ? '2px solid var(--accent)' : '2px solid transparent',
+                color: activeTab === 'consumo' ? 'var(--accent)' : 'var(--text-secondary)',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em'
+              }}
+            >
+              Consumo
+            </button>
           </div>
 
           <main style={{ display: 'flex', flexDirection: 'column', gap: '0.1rem', flex: 1, overflowY: 'auto', padding: '0.25rem', paddingBottom: 'calc(1rem + env(safe-area-inset-bottom))' }}>
@@ -124,9 +143,13 @@ export function App() {
               <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <EventLogCard deviceId={sampleDeviceId} />
               </div>
-            ) : (
+            ) : activeTab === 'config' ? (
               <div style={{ height: '100%', display: 'flex', flexDirection: 'column', paddingBottom: '2rem' }}>
                 <DeviceConfigCard deviceId={sampleDeviceId} />
+              </div>
+            ) : (
+              <div style={{ height: '100%', display: 'flex', flexDirection: 'column', paddingBottom: '2rem' }}>
+                <ConsumptionCard deviceId={sampleDeviceId} />
               </div>
             )}
           </main>
@@ -188,13 +211,31 @@ export function App() {
               >
                 CONFIGURACIÓN
               </button>
+              <button
+                onClick={() => setActiveDesktopTab('consumo')}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  borderBottom: activeDesktopTab === 'consumo' ? '2px solid var(--accent)' : '2px solid transparent',
+                  color: activeDesktopTab === 'consumo' ? 'var(--text-primary)' : 'var(--text-secondary)',
+                  fontWeight: 'bold',
+                  padding: '0.5rem 1rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  fontSize: '1.25rem'
+                }}
+              >
+                CONSUMO
+              </button>
             </div>
 
             <div style={{ flex: 1, overflow: 'hidden' }}>
               {activeDesktopTab === 'historial' ? (
                 <EventLogCard deviceId={sampleDeviceId} />
-              ) : (
+              ) : activeDesktopTab === 'config' ? (
                 <DeviceConfigCard deviceId={sampleDeviceId} />
+              ) : (
+                <ConsumptionCard deviceId={sampleDeviceId} />
               )}
             </div>
           </div>

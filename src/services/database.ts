@@ -46,6 +46,7 @@ export interface IDatabaseService {
     deleteEventoEntry(deviceId: string, date: string, time: string): Promise<void>;
     onEventosChange(deviceId: string, callback: (eventos: DeviceEventos | null) => void): Unsubscribe;
     onEventosByDateChange(deviceId: string, date: string, callback: (eventos: EventosByDate | null) => void): Unsubscribe;
+    getEventosRange(deviceId: string, startDate: string, endDate: string): Promise<EventoEntry[]>;
 
     // Registros operations
     getDeviceRegistros(deviceId: string): Promise<DeviceRegistros | null>;
@@ -195,6 +196,44 @@ export class FirebaseDatabaseService implements IDatabaseService {
         return onValue(eventosDateRef, (snapshot) => {
             callback(snapshot.exists() ? snapshot.val() : null);
         });
+    }
+
+    async getEventosRange(deviceId: string, startDate: string, endDate: string): Promise<any[]> {
+        const events: any[] = [];
+        const start = new Date(`${startDate}T00:00:00`);
+        const end = new Date(`${endDate}T00:00:00`);
+
+        let loopDate = new Date(start);
+
+        const getLocalDateKey = (d: Date): string => {
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${y}-${m}-${day}`;
+        };
+
+        const promises = [];
+        // Loop inclusive of end date
+        while (loopDate <= end) {
+            const dateStr = getLocalDateKey(loopDate);
+            promises.push(this.getEventosByDate(deviceId, dateStr).then(dayEvents => ({ date: dateStr, data: dayEvents })));
+            loopDate.setDate(loopDate.getDate() + 1);
+        }
+
+        const results = await Promise.all(promises);
+
+        results.forEach(({ date, data }) => {
+            if (data) {
+                Object.entries(data).forEach(([time, event]: [string, any]) => {
+                    events.push({
+                        ...event,
+                        time: `${date}T${time}`
+                    });
+                });
+            }
+        });
+
+        return events;
     }
 
     // ==================== Registros Operations ====================
