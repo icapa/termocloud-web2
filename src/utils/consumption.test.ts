@@ -1,6 +1,6 @@
 
 import { describe, it, expect } from 'vitest';
-import { calculateHeatingConsumption, ConsumptionEvent } from './consumption';
+import { calculateHeatingConsumption, type ConsumptionEvent } from './consumption';
 
 describe('calculateHeatingConsumption', () => {
     it('should calculate 0 consumption if no events and default off', () => {
