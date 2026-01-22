@@ -1,0 +1,20 @@
+{
+  "projects": {
+    "default": "termocloud-icapa"
+  },
+  "targets": {
+    "termocloud2": {
+      "hosting": [
+        "termocloud2"
+      ]
+    },
+    "termocloud-icapa": {
+      "hosting": {
+        "termocloud2": [
+          "termocloud2"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
