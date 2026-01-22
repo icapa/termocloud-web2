@@ -5,7 +5,8 @@
   --bg-main: #0b0e14;
   --bg-card: #111927;
   --bg-hover: #1a2332;
-  --accent: #9fef00; /* HTB Green */
+  --accent: #9fef00;
+  /* HTB Green */
   --accent-glow: rgba(159, 239, 0, 0.2);
   --text-primary: #ffffff;
   --text-secondary: #9ba1a6;
@@ -26,6 +27,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   display: flex;
@@ -33,15 +40,17 @@ body {
   min-height: 100vh;
   justify-content: center;
   align-items: center;
-  background-image: 
+  background-image:
     radial-gradient(circle at 2px 2px, var(--border) 1px, transparent 0);
   background-size: 40px 40px;
+  overflow: hidden;
+  /* Prevent body scroll since App handles it */
 }
 
 #app {
   width: 100%;
-  max-width: 1200px;
-  padding: 2rem;
+  height: 100vh;
+  /* Full viewport height */
 }
 
 .app {
@@ -51,7 +60,9 @@ body {
   align-items: center;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--text-primary);
@@ -122,12 +133,38 @@ h1, h2, h3 {
 
 /* Animations */
 @keyframes glow {
-  0% { opacity: 0.5; }
-  50% { opacity: 1; }
-  100% { opacity: 0.5; }
+  0% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
 }
 
 .pulse-green {
   animation: glow 2s infinite ease-in-out;
 }
 
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}

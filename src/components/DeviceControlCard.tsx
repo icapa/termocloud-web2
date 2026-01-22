@@ -33,7 +33,7 @@ export function DeviceControlCard({ deviceId }: DeviceControlCardProps) {
     };
 
     return (
-        <div className="htb-card" style={{ width: '350px' }}>
+        <div className="htb-card" style={{ width: '100%' }}>
             <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '1.5rem' }}>
                 Control de Sistema
             </div>
@@ -77,7 +77,7 @@ export function DeviceControlCard({ deviceId }: DeviceControlCardProps) {
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
                         <button
-                            onClick={() => handleTempAdjust(-0.5)}
+                            onClick={() => handleTempAdjust(-1.0)}
                             className="htb-button htb-button-outline"
                             style={{ width: '40px', height: '40px', padding: 0, borderRadius: '50%', fontSize: '1.2rem' }}
                         >
@@ -89,7 +89,7 @@ export function DeviceControlCard({ deviceId }: DeviceControlCardProps) {
                         </div>
 
                         <button
-                            onClick={() => handleTempAdjust(0.5)}
+                            onClick={() => handleTempAdjust(1.0)}
                             className="htb-button htb-button-outline"
                             style={{ width: '40px', height: '40px', padding: 0, borderRadius: '50%', fontSize: '1.2rem' }}
                         >

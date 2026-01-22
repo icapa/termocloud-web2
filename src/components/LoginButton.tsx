@@ -15,9 +15,7 @@ export function LoginButton() {
 
     if (currentUser.value) {
         return (
-            <div style={{ textAlign: "center", padding: "20px" }}>
-                <h2>Bienvenido, {currentUser.value.displayName || "Usuario"}!</h2>
-                <p>Email: {currentUser.value.email}</p>
+            <div style={{ textAlign: "center", padding: "0px" }}>
                 <button onClick={handleLogout} style={buttonStyle}>
                     Cerrar Sesión
                 </button>
@@ -41,7 +39,7 @@ export function LoginButton() {
 
 const buttonStyle = {
     padding: "12px 24px",
-    fontSize: "16px",
+    fontSize: "14px",
     backgroundColor: "#4285f4",
     color: "white",
     border: "none",

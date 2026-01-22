@@ -9,7 +9,7 @@ export function DeviceStatusCard({ deviceId }: DeviceStatusCardProps) {
 
     if (loading) {
         return (
-            <div className="htb-card" style={{ width: '350px', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+            <div className="htb-card" style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
                 <div style={{ color: 'var(--text-secondary)' }}>
                     <span className="pulse-green">CARGANDO SISTEMA...</span>
                 </div>
@@ -19,7 +19,7 @@ export function DeviceStatusCard({ deviceId }: DeviceStatusCardProps) {
 
     if (error) {
         return (
-            <div className="htb-card" style={{ borderLeft: '4px solid var(--error)', width: '350px' }}>
+            <div className="htb-card" style={{ borderLeft: '4px solid var(--error)', width: '100%' }}>
                 <div style={{ color: 'var(--error)', fontWeight: 'bold' }}>ERROR DE CONEXIÓN</div>
                 <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginTop: '0.5rem' }}>{error}</div>
             </div>
@@ -28,7 +28,7 @@ export function DeviceStatusCard({ deviceId }: DeviceStatusCardProps) {
 
     if (!estado || !control) {
         return (
-            <div className="htb-card" style={{ borderLeft: '4px solid var(--text-secondary)', width: '350px' }}>
+            <div className="htb-card" style={{ borderLeft: '4px solid var(--text-secondary)', width: '100%' }}>
                 <div style={{ color: 'var(--text-secondary)', fontWeight: 'bold' }}>DISPOSITIVO NO ENCONTRADO</div>
             </div>
         );
@@ -37,7 +37,7 @@ export function DeviceStatusCard({ deviceId }: DeviceStatusCardProps) {
     const isOnline = estado.encendido === 1;
 
     return (
-        <div className="htb-card" style={{ width: '350px' }}>
+        <div className="htb-card" style={{ width: '100%' }}>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '2rem', padding: '1rem 0' }}>
                 <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     {/* Status glow effect */}

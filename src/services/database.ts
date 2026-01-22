@@ -1,5 +1,5 @@
-import { ref, get, set, update, remove, onValue } from "firebase/database";
-import type { Database, DatabaseReference, Unsubscribe } from "firebase/database";
+import { ref, get, set, update, remove, onValue, push } from "firebase/database";
+import type { Database, Unsubscribe } from "firebase/database";
 import { db } from "../firebase";
 import type {
     DeviceConfig,
@@ -23,6 +23,7 @@ export interface IDatabaseService {
     getDeviceConfig(deviceId: string): Promise<DeviceConfig | null>;
     setConfigEntry(deviceId: string, configId: string, config: ConfigEntry): Promise<void>;
     updateConfigEntry(deviceId: string, configId: string, updates: Partial<ConfigEntry>): Promise<void>;
+    createConfigEntry(deviceId: string, config: Omit<ConfigEntry, 'id'>): Promise<void>;
     deleteConfigEntry(deviceId: string, configId: string): Promise<void>;
     onConfigChange(deviceId: string, callback: (config: DeviceConfig | null) => void): Unsubscribe;
 
@@ -44,6 +45,7 @@ export interface IDatabaseService {
     setEventoEntry(deviceId: string, date: string, time: string, evento: EventoEntry): Promise<void>;
     deleteEventoEntry(deviceId: string, date: string, time: string): Promise<void>;
     onEventosChange(deviceId: string, callback: (eventos: DeviceEventos | null) => void): Unsubscribe;
+    onEventosByDateChange(deviceId: string, date: string, callback: (eventos: EventosByDate | null) => void): Unsubscribe;
 
     // Registros operations
     getDeviceRegistros(deviceId: string): Promise<DeviceRegistros | null>;
@@ -51,6 +53,7 @@ export interface IDatabaseService {
     setRegistroEntry(deviceId: string, date: string, time: string, registro: RegistroEntry): Promise<void>;
     deleteRegistroEntry(deviceId: string, date: string, time: string): Promise<void>;
     onRegistrosChange(deviceId: string, callback: (registros: DeviceRegistros | null) => void): Unsubscribe;
+    onRegistrosByDateChange(deviceId: string, date: string, callback: (registros: RegistrosByDate | null) => void): Unsubscribe;
 
     // Complete device operations
     getDevice(deviceId: string): Promise<Device | null>;
@@ -83,6 +86,15 @@ export class FirebaseDatabaseService implements IDatabaseService {
     async updateConfigEntry(deviceId: string, configId: string, updates: Partial<ConfigEntry>): Promise<void> {
         const configEntryRef = ref(this._db, `${deviceId}/conf/${configId}`);
         await update(configEntryRef, updates);
+    }
+
+    async createConfigEntry(deviceId: string, config: Omit<ConfigEntry, 'id'>): Promise<void> {
+        const configRef = ref(this._db, `${deviceId}/conf`);
+        const newRef = push(configRef);
+        const newId = newRef.key;
+        if (!newId) throw new Error("Failed to generate ID");
+
+        await set(newRef, { ...config, id: newId });
     }
 
     async deleteConfigEntry(deviceId: string, configId: string): Promise<void> {
@@ -178,6 +190,13 @@ export class FirebaseDatabaseService implements IDatabaseService {
         });
     }
 
+    onEventosByDateChange(deviceId: string, date: string, callback: (eventos: EventosByDate | null) => void): Unsubscribe {
+        const eventosDateRef = ref(this._db, `${deviceId}/eventos/${date}`);
+        return onValue(eventosDateRef, (snapshot) => {
+            callback(snapshot.exists() ? snapshot.val() : null);
+        });
+    }
+
     // ==================== Registros Operations ====================
 
     async getDeviceRegistros(deviceId: string): Promise<DeviceRegistros | null> {
@@ -205,6 +224,13 @@ export class FirebaseDatabaseService implements IDatabaseService {
     onRegistrosChange(deviceId: string, callback: (registros: DeviceRegistros | null) => void): Unsubscribe {
         const registrosRef = ref(this._db, `${deviceId}/registros`);
         return onValue(registrosRef, (snapshot) => {
+            callback(snapshot.exists() ? snapshot.val() : null);
+        });
+    }
+
+    onRegistrosByDateChange(deviceId: string, date: string, callback: (registros: RegistrosByDate | null) => void): Unsubscribe {
+        const registrosDateRef = ref(this._db, `${deviceId}/registros/${date}`);
+        return onValue(registrosDateRef, (snapshot) => {
             callback(snapshot.exists() ? snapshot.val() : null);
         });
     }
