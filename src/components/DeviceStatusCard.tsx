@@ -38,7 +38,7 @@ export function DeviceStatusCard({ deviceId }: DeviceStatusCardProps) {
 
     return (
         <div className="htb-card" style={{ width: '100%' }}>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '2rem', padding: '1rem 0' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '1rem', padding: '0.25rem 0' }}>
                 <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     {/* Status glow effect */}
                     {isOnline && (
@@ -71,18 +71,18 @@ export function DeviceStatusCard({ deviceId }: DeviceStatusCardProps) {
                 </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
-                <div style={{ background: 'rgba(255,255,255,0.03)', padding: '1rem', borderRadius: '4px', border: '1px solid var(--border)' }}>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginBottom: '0.25rem' }}>ACTUAL</div>
-                    <div className="htb-mono" style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{estado.temperatura}<span style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>°C</span></div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginBottom: '1rem' }}>
+                <div style={{ background: 'rgba(255,255,255,0.03)', padding: '0.75rem', borderRadius: '4px', border: '1px solid var(--border)' }}>
+                    <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', marginBottom: '0rem' }}>ACTUAL</div>
+                    <div className="htb-mono" style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>{estado.temperatura}<span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>°C</span></div>
                 </div>
-                <div style={{ background: 'rgba(255,255,255,0.03)', padding: '1rem', borderRadius: '4px', border: '1px solid var(--border)' }}>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginBottom: '0.25rem' }}>OBJETIVO</div>
-                    <div className="htb-mono" style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--accent)' }}>{estado.temperaturaObjetivo}<span style={{ fontSize: '0.875rem' }}>°C</span></div>
+                <div style={{ background: 'rgba(255,255,255,0.03)', padding: '0.75rem', borderRadius: '4px', border: '1px solid var(--border)' }}>
+                    <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', marginBottom: '0rem' }}>OBJETIVO</div>
+                    <div className="htb-mono" style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--accent)' }}>{estado.temperaturaObjetivo}<span style={{ fontSize: '0.75rem' }}>°C</span></div>
                 </div>
             </div>
 
-            <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1rem' }}>
+            <div style={{ borderTop: '1px solid var(--border)', paddingTop: '0.75rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
                     <span>MODO ACTUAL</span>
                     <span className="htb-mono" style={{ color: 'var(--text-primary)' }}>{control.modo.toUpperCase()}</span>

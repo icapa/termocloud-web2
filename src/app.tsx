@@ -6,6 +6,7 @@ import { DeviceConfigCard } from './components/DeviceConfigCard'
 import './app.css'
 
 import { useState, useEffect } from 'preact/hooks';
+import { currentUser, isLoading } from './stores/authStore';
 
 export function App() {
   const sampleDeviceId = '00000000bceb13f1';
@@ -22,8 +23,25 @@ export function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  if (isLoading.value) {
+    return (
+      <div style={{ height: '100dvh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: '1rem', color: 'var(--text-secondary)' }}>
+        <div className="spinner" style={{ width: '40px', height: '40px', border: '3px solid rgba(255,255,255,0.1)', borderTopColor: 'var(--accent)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+        <div style={{ letterSpacing: '0.1em', fontSize: '0.9rem' }}>CARGANDO SISTEMA</div>
+      </div>
+    );
+  }
+
+  if (!currentUser.value) {
+    return (
+      <div style={{ height: '100dvh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <LoginButton />
+      </div>
+    );
+  }
+
   return (
-    <div class="app" style={{ height: '100vh', display: 'flex', flexDirection: 'column', boxSizing: 'border-box', overflow: 'hidden' }}>
+    <div class="app" style={{ height: '100dvh', display: 'flex', flexDirection: 'column', boxSizing: 'border-box', overflow: 'hidden' }}>
       {/*
       <header style={{ textAlign: 'center', marginBottom: '1.5rem', flexShrink: 0, padding: '1rem 0 0 0' }}>
         <h1 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>
@@ -92,7 +110,7 @@ export function App() {
             </button>
           </div>
 
-          <main style={{ display: 'flex', flexDirection: 'column', gap: '0.1rem', flex: 1, overflowY: 'auto', padding: '0.25rem', paddingBottom: 'calc(4rem + env(safe-area-inset-bottom))' }}>
+          <main style={{ display: 'flex', flexDirection: 'column', gap: '0.1rem', flex: 1, overflowY: 'auto', padding: '0.25rem', paddingBottom: 'calc(1rem + env(safe-area-inset-bottom))' }}>
             {activeTab === 'control' ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <DeviceStatusCard deviceId={sampleDeviceId} />
@@ -103,7 +121,7 @@ export function App() {
                 {/*</div>*/}
               </div>
             ) : activeTab === 'historial' ? (
-              <div style={{ height: '100%', display: 'flex', flexDirection: 'column', paddingBottom: '2rem' }}>
+              <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <EventLogCard deviceId={sampleDeviceId} />
               </div>
             ) : (

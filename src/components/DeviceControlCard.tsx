@@ -34,11 +34,11 @@ export function DeviceControlCard({ deviceId }: DeviceControlCardProps) {
 
     return (
         <div className="htb-card" style={{ width: '100%' }}>
-            <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '1.5rem' }}>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
                 Control de Sistema
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.5rem', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.5rem', marginBottom: '0.75rem' }}>
                 <button
                     onClick={() => handleModeChange('on')}
                     className={`htb-button ${currentMode === 'on' ? '' : 'htb-button-outline'}`}
@@ -65,11 +65,11 @@ export function DeviceControlCard({ deviceId }: DeviceControlCardProps) {
             {currentMode === 'automatico' && (
                 <div style={{
                     borderTop: '1px solid var(--border)',
-                    paddingTop: '1.5rem',
+                    paddingTop: '0.75rem',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
-                    gap: '1rem'
+                    gap: '0.5rem'
                 }}>
                     <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', letterSpacing: '0.05em' }}>
                         AJUSTE TEMPERATURA AUTO
@@ -79,19 +79,19 @@ export function DeviceControlCard({ deviceId }: DeviceControlCardProps) {
                         <button
                             onClick={() => handleTempAdjust(-1.0)}
                             className="htb-button htb-button-outline"
-                            style={{ width: '40px', height: '40px', padding: 0, borderRadius: '50%', fontSize: '1.2rem' }}
+                            style={{ width: '32px', height: '32px', padding: 0, borderRadius: '50%', fontSize: '1rem' }}
                         >
                             -
                         </button>
 
-                        <div className="htb-mono" style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--accent)' }}>
-                            {autoTemp.toFixed(1)}<span style={{ fontSize: '0.875rem' }}>°C</span>
+                        <div className="htb-mono" style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--accent)' }}>
+                            {autoTemp.toFixed(1)}<span style={{ fontSize: '0.75rem' }}>°C</span>
                         </div>
 
                         <button
                             onClick={() => handleTempAdjust(1.0)}
                             className="htb-button htb-button-outline"
-                            style={{ width: '40px', height: '40px', padding: 0, borderRadius: '50%', fontSize: '1.2rem' }}
+                            style={{ width: '32px', height: '32px', padding: 0, borderRadius: '50%', fontSize: '1rem' }}
                         >
                             +
                         </button>
