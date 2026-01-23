@@ -20,7 +20,8 @@ export interface DayConsumption {
 export function calculateHeatingConsumption(
     events: ConsumptionEvent[],
     startDateStr: string,
-    endDateStr: string
+    endDateStr: string,
+    limitDate: Date | null = null
 ): DayConsumption[] {
     // 1. Setup boundaries
     // Start range: 00:00:00 local
@@ -86,21 +87,45 @@ export function calculateHeatingConsumption(
                 d.setHours(24, 0, 0, 0); // 00:00:00 of next day
                 const nextDayStart = d.getTime();
 
-                // Segment ends at event or day boundary
-                const segmentEnd = Math.min(eventTime, nextDayStart);
+                // Segment ends at event or day boundary or limitDate
+                let segmentEnd = Math.min(eventTime, nextDayStart);
 
-                const duration = (segmentEnd - tempTime) / 1000;
+                // If limitDate is set, limit the segment
+                if (limitDate && segmentEnd > limitDate.getTime()) {
+                    segmentEnd = limitDate.getTime();
+                }
+
+                // If we are completely past limit, don't add anything and maybe break?
+                // Actually if tempTime >= limitDate we should stop.
+                if (limitDate && tempTime >= limitDate.getTime()) {
+                    break;
+                }
+
+                // If segmentEnd became less than tempTime (because limit < tempTime), ensure 0 duration
+                const duration = Math.max(0, (segmentEnd - tempTime) / 1000);
 
                 if (duration > 0) {
                     addConsumption(tempTime, duration);
                 }
 
                 tempTime = segmentEnd;
+                // If we hit limit, break inner
+                if (limitDate && tempTime >= limitDate.getTime()) break;
             }
         }
 
         currentState = event.encendido;
         currentTime = eventTime;
+
+        // Optimization: If we passed the limitDate, we can stop processing entirely if events are sorted
+        if (limitDate && currentTime >= limitDate.getTime()) {
+            // We can't just return because we need to fill 0s for remaining days? 
+            // Logic below handles "remaining output" so breaking loop is safe-ish but let's stick to local checks to be safe
+            // actually, "currentState" is relevant for future segments? No.
+            // If we are past limit, we shouldn't project ANY more consumption?
+            // Yes.
+            break;
+        }
     }
 
     // Handle Time from last event to endRange
@@ -109,12 +134,20 @@ export function calculateHeatingConsumption(
         const finalTime = endRange.getTime();
 
         while (tempTime < finalTime) {
+            // Check limit immediately
+            if (limitDate && tempTime >= limitDate.getTime()) break;
+
             const d = new Date(tempTime);
             d.setHours(24, 0, 0, 0);
             const nextDayStart = d.getTime();
 
-            const segmentEnd = Math.min(finalTime, nextDayStart);
-            const duration = (segmentEnd - tempTime) / 1000;
+            let segmentEnd = Math.min(finalTime, nextDayStart);
+
+            if (limitDate && segmentEnd > limitDate.getTime()) {
+                segmentEnd = limitDate.getTime();
+            }
+
+            const duration = Math.max(0, (segmentEnd - tempTime) / 1000);
 
             if (duration > 0) {
                 addConsumption(tempTime, duration);
