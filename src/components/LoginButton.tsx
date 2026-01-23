@@ -39,13 +39,3 @@ export function LoginButton() {
     );
 }
 
-const buttonStyle = {
-    padding: "12px 24px",
-    fontSize: "14px",
-    backgroundColor: "#4285f4",
-    color: "white",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-    marginTop: "10px",
-};
