@@ -16,7 +16,7 @@ export function LoginButton() {
     if (currentUser.value) {
         return (
             <div style={{ textAlign: "center", padding: "0px" }}>
-                <button onClick={handleLogout} style={buttonStyle}>
+                <button onClick={handleLogout} className="htb-button" style={{ marginTop: '10px' }}>
                     Cerrar Sesión
                 </button>
             </div>
@@ -25,25 +25,17 @@ export function LoginButton() {
 
     return (
         <div style={{ textAlign: "center", padding: "20px" }}>
-            <h2>Termocloud Web 2</h2>
-            <p>Inicia sesión con tu cuenta de Google</p>
+            <h2 style={{ color: 'var(--accent)' }}>Termocloud Web 2</h2>
+            <div style={{ margin: '1rem 0' }}>
+                <img src="/termocloud-icon.svg" alt="Termocloud Icon" style={{ width: '160px', height: '160px' }} />
+            </div>
             {authError.value && (
                 <p style={{ color: "red" }}>{authError.value}</p>
             )}
-            <button onClick={handleLogin} style={buttonStyle}>
+            <button onClick={handleLogin} className="htb-button" style={{ marginTop: '10px' }}>
                 🔐 Iniciar Sesión con Google
             </button>
         </div>
     );
 }
 
-const buttonStyle = {
-    padding: "12px 24px",
-    fontSize: "14px",
-    backgroundColor: "#4285f4",
-    color: "white",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-    marginTop: "10px",
-};
