@@ -35,8 +35,20 @@ export function App() {
 
   if (!currentUser.value) {
     return (
-      <div style={{ height: '100dvh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <LoginButton />
+      <div style={{
+        height: '100dvh',
+        width: '100vw',
+        margin: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'relative'
+      }}>
+        {/* Overlay for readability if needed */}
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 0 }}></div>
+        <div style={{ zIndex: 1 }}>
+          <LoginButton />
+        </div>
       </div>
     );
   }
