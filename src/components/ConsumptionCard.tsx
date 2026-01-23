@@ -33,7 +33,7 @@ export function ConsumptionCard({ deviceId }: ConsumptionCardProps) {
                 encendido: e.encendido as 0 | 1
             }));
 
-            const result = calculateHeatingConsumption(formattedEvents, startDate, endDate);
+            const result = calculateHeatingConsumption(formattedEvents, startDate, endDate, new Date());
 
             // Convert seconds to hours for display
             const dataInHours = result.map(day => ({
