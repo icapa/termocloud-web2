@@ -241,6 +241,18 @@ export function App() {
           </div>
         </main>
       )}
+      <div style={{
+        position: 'fixed',
+        bottom: '0.5rem',
+        right: '0.5rem',
+        fontSize: '0.7rem',
+        color: 'var(--text-secondary)',
+        opacity: 0.5,
+        pointerEvents: 'none',
+        zIndex: 1000
+      }}>
+        v{__APP_VERSION__}
+      </div>
     </div>
   )
 }
